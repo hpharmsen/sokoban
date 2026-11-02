@@ -49,7 +49,7 @@ class Game:
             f.write(str(self.level))
 
     def retrace_state(self):
-        ''' Backup a move '''
+        """Backup a move"""
         if not self.states:
             return
         state = self.states.pop()
@@ -146,8 +146,11 @@ class Game:
         if not self.active:
             return
         with open(SAVE_FILE, 'w') as f:
-            for row in self.grid.grid:
-                f.write(''.join(cell_symbol(cell) for cell in row) + '\n')
+            f.write(self.board_text())
+
+    def board_text(self) -> str:
+        """Current board in standard Sokoban text notation."""
+        return ''.join(''.join(cell_symbol(cell) for cell in row) + '\n' for row in self.grid.grid)
 
     def load_state(self):
         if not os.path.isfile(SAVE_FILE):
